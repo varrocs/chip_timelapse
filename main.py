@@ -42,6 +42,12 @@ def setup_reboot_timer():
     if FOR_REAL:
         reboot_timer.set_reboot_time(REBOOT_TIME)
 
+def is_stop_switch_active():
+    if FOR_REAL:
+        return reboot_timer.get_stop_switch_status()
+    else:
+        return False
+
 
 def main():
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG, filename=LOGFILE, filemode="a")
@@ -51,8 +57,9 @@ def main():
     sync_data()
     setup_reboot_timer()
     logging.info(" ------------ Finished ------------ ")
-    logging.shutdown()
-    power_off()
+    if not is_stop_switch_active():
+        logging.shutdown()
+        power_off()
 
 if __name__ == "__main__":
     main()
