@@ -58,12 +58,6 @@ void do_sleep() {
 
 bool sleep_with_register_counter() {
   if (statusRegisters[REBOOT_ACTIVE] == 0) return false; // Nothing to do
-
-  if (statusRegisters[STOP_SWITCH] > 0) {
-    
-    statusRegisters[REBOOT_ACTIVE] = 0;     // Reboot active
-    return false;
-  }
   
   uint16_t sleepTime = sleepTimeFromRegs();
   if (sleepTime == 0) {
@@ -150,8 +144,8 @@ void pull_on_switch() {
 }
 
 bool update_stop_switch_status() {
-  statusRegisters[STOP_SWITCH] = (digitalRead(STOP_SWITCH_PIN) == HIGH ? 0 : 1);  // Not pressed = LOW
-  return statusRegisters[STOP_SWITCH];
+  statusRegisters[STOP_SWITCH] = (digitalRead(STOP_SWITCH_PIN) == HIGH) ? 0 : 1;  // Not pressed = Pulled up
+  return statusRegisters[STOP_SWITCH] == 1  ;
 }
 
 uint16_t sleepTimeFromRegs() {
@@ -203,9 +197,21 @@ void loop() {
   TinyWireS_stop_check();
   wdt_reset();
   update_stop_switch_status();
-  bool timer_active_current = sleep_with_register_counter();
-  if (timer_active && !timer_active_current) { // The timer was active but currently not
-    pull_on_switch();
+
+  if (statusRegisters[STOP_SWITCH] > 0) { // The stop switch is pressed 
+    bool parentDeviceSleeping = (statusRegisters[REBOOT_ACTIVE] == 1);
+    statusRegisters[REBOOT_ACTIVE] = 0;   // No more reboot
+    timer_active = false;
+    if (parentDeviceSleeping) {
+      pull_on_switch();  
+    }
   }
-  timer_active = timer_active_current;
+  else // Switch is not pressed
+  {
+    bool timer_active_current = sleep_with_register_counter();
+    if (timer_active && !timer_active_current) { // The timer was active but currently not
+      pull_on_switch();
+    }
+    timer_active = timer_active_current;
+  }
 }

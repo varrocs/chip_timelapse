@@ -6,6 +6,7 @@ import time
 import power_supply
 import reboot_timer
 import subprocess
+import take_picture
 
 LOGFILE="timelapse.log"
 REBOOT_TIME=60
@@ -25,8 +26,8 @@ def log_power_data():
 
 def sync_data():
     logging.info(" ------------ Syncing files ...")
+
     logging.info(" ------------ Syncing files ... DONE")
-    pass
 
 def take_photo():
     logging.info(" ------------ Taking photo ...")
@@ -60,6 +61,9 @@ def main():
     if not is_stop_switch_active():
         logging.shutdown()
         power_off()
+    else:
+        logging.info("Stop switch is active! Quitting without reboot")
+        sync_data()
 
 if __name__ == "__main__":
     main()
