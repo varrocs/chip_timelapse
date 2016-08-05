@@ -11,16 +11,16 @@ PREG_STEP = 4
 
 power_chip_registers = [
 #name, unit, base register, base, step
-["ACIN_Voltage", "mV", 0x56, 0, 1.7],
-["ACIN_Current", "mA", 0x58, 0, 0.625],
-["VBUS_voltage", "mV", 0x5A, 0, 1.7],
-["VBUS_Current", "mA", 0x5C, 0, 0.375],
-["Internal_Temperature", "C", 0x5E, -144.7, 0.1],
-["Temperature_Sensor_Voltage", "mV", 0x62, 0, 0.8],
-["APS_IPSOUT_Voltage", "mV",0x7E, 0, 1.4],
-["Battery_Voltage", "mV", 0x78, 0, 1.1],
-["Battery_Discharge_Current", "mA", 0x7A, 0, 0.5],
-["Battery_Charge_Current", "mA", 0x7C, 0, 0.5],
+["acinVoltage", "mV", 0x56, 0, 1.7],
+["acinCurrent", "mA", 0x58, 0, 0.625],
+["vbusVoltage", "mV", 0x5A, 0, 1.7],
+["vbusCurrent", "mA", 0x5C, 0, 0.375],
+["internalTemperature", "C", 0x5E, -144.7, 0.1],
+["temperatureSensorVoltage", "mV", 0x62, 0, 0.8],
+["apsIpsoutVoltage", "mV",0x7E, 0, 1.4],
+["batteryVoltage", "mV", 0x78, 0, 1.1],
+["batteryChargeCurrent", "mA", 0x7A, 0, 0.5],
+["batteryDischargeCurrent", "mA", 0x7C, 0, 0.5],
 ];
 
 #Turn on battery current ADC: i2cset -y -f 0 0x34 0x82 0xc3

@@ -9,22 +9,24 @@ import subprocess
 import dweet_client
 import take_picture
 
+import traceback
+
 LOGFILE="timelapse.log"
 REBOOT_TIME=45
 FOR_REAL=False
 
 def log_data(switch_status, attiny_present):
     try:
+	log_data = {}
         try:
             power_supply.turn_on_current_adc_measurement()
             time.sleep(1)
-            power_data = power_supply.read_power_data()
-            power_data['powerdataStatus'] = True
-        except:
-            power_data = {}
-            power_data['powerdataStatus'] = False
-
-        log_data = power_data
+            log_data['powerData'] = power_supply.read_power_data()
+            log_data['powerdataStatus'] = True
+        except Exception as e:
+	    logging.error("Failed to get power data: "+str(e))
+            log_data['powerData'] = []
+            log_data['powerdataStatus'] = False
         log_data['switchStatus'] = switch_status
         log_data['rebootTime'] = REBOOT_TIME
         log_data['attinyPresent'] = attiny_present
