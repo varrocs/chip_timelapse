@@ -25,7 +25,7 @@ def log_data(switch_status, attiny_present):
             log_data['powerdataStatus'] = True
         except Exception as e:
 	    logging.error("Failed to get power data: "+str(e))
-            log_data['powerData'] = []
+            log_data['powerData'] = {}
             log_data['powerdataStatus'] = False
         log_data['switchStatus'] = switch_status
         log_data['rebootTime'] = REBOOT_TIME

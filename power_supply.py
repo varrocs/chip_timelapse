@@ -64,11 +64,16 @@ def _run_command_for(power_chip_register):
             _assemble_command_lines(power_chip_register)),
         power_chip_register)
 
+def _powerdata_lines_to_dict(data_lines):
+    return { line['name']: (str(line['value']) + " " + line['unit'])  for line in data_lines }
+
 def turn_on_current_adc_measurement():
     subprocess.call("/usr/sbin/i2cset -y -f 0 0x34 0x82 0xc3", shell=True)
 
 def read_power_data():
-    return [_run_command_for(power_chip_register) for power_chip_register in power_chip_registers]
+    return _powerdata_lines_to_dict(
+        [_run_command_for(power_chip_register) for power_chip_register in power_chip_registers]
+    )
 
 
 if __name__ == "__main__":
