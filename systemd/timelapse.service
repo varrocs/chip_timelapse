@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 type=oneshot
-ExecStart=/usr/bin/python /home/chip/git/chip_timelapse
+ExecStart=/usr/bin/python /home/chip/git/chip_timelapse/main.py
 
 [Install]
 WantedBy=multi-user.target
