@@ -1,0 +1,11 @@
+[Unit]
+Description=Timelapse photo service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+type=oneshot
+ExecStart=/usr/bin/python /home/chip/git/chip_timelapse
+
+[Install]
+WantedBy=multi-user.target
