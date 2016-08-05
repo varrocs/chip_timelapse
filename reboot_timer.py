@@ -1,9 +1,10 @@
 
 import subprocess
 import logging
+import time
 
-BASE_SET_COMMAND="i2cset -y -f 1 0x05 {reg} {value}" # Bus: 1, device address: 0x05
-BASE_GET_COMMAND="i2cset -y -f 1 0x05 {reg}" # Bus: 1, device address: 0x05
+BASE_SET_COMMAND="/usr/sbin/i2cset -y -f 1 0x05 {reg} {value}" # Bus: 1, device address: 0x05
+BASE_GET_COMMAND="/usr/sbin/i2cget -y -f 1 0x05 {reg}" # Bus: 1, device address: 0x05
 
 
 REBOOT_SECONDS_LOW  = 0x00
@@ -21,7 +22,8 @@ def _assemble_command_lines(high, low, active):
 def _execute_command_lines(commands):
     try:
         for command in commands:
-            subprocess.call(command, shell=True)
+		subprocess.call(command, shell=True)
+		time.sleep(1)
     except Exception as e:
         logging.warn("Error during calling " + commands + ": "+str(e))
 
@@ -41,7 +43,7 @@ def set_reboot_time(secs):
 def get_stop_switch_status():
     status = int(
         subprocess.check_output(
-            BASE_GET_COMMAND.format(reg=STOP_SWITCH_ACTIVE)),
+            BASE_GET_COMMAND.format(reg=STOP_SWITCH_ACTIVE), shell=True),
         16)
     return (status != 0)
 

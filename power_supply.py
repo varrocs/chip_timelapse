@@ -26,7 +26,7 @@ power_chip_registers = [
 #Turn on battery current ADC: i2cset -y -f 0 0x34 0x82 0xc3
 #Turn on all ADC: i2cset -y -f 0 0x34 0x82 0xff
 
-BASE_COMMAND="i2cget -y -f 0 0x34 "  # Bus: 0, device address: 0x34
+BASE_COMMAND="/usr/sbin/i2cget -y -f 0 0x34 "  # Bus: 0, device address: 0x34
 
 def _assemble_command_lines(d):
     return (
@@ -65,7 +65,7 @@ def _run_command_for(power_chip_register):
         power_chip_register)
 
 def turn_on_current_adc_measurement():
-    subprocess.call("i2cset -y -f 0 0x34 0x82 0xc3", shell=True)
+    subprocess.call("/usr/sbin/i2cset -y -f 0 0x34 0x82 0xc3", shell=True)
 
 def read_power_data():
     return [_run_command_for(power_chip_register) for power_chip_register in power_chip_registers]

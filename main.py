@@ -9,8 +9,8 @@ import subprocess
 import take_picture
 
 LOGFILE="timelapse.log"
-REBOOT_TIME=60
-FOR_REAL=False
+REBOOT_TIME=45
+FOR_REAL=True
 
 def log_power_data():
     try:
@@ -35,7 +35,8 @@ def take_photo():
 
 def power_off():
     if FOR_REAL:
-        subprocess.call("poweroff")
+        print("poweroff_") 
+	subprocess.call("poweroff")
     else:
         print("poweroff")
 
@@ -56,9 +57,9 @@ def main():
     take_photo()
     log_power_data()
     sync_data()
-    setup_reboot_timer()
-    logging.info(" ------------ Finished ------------ ")
     if not is_stop_switch_active():
+        setup_reboot_timer()
+        logging.info(" ------------ Finished ------------ ")
         logging.shutdown()
         power_off()
     else:
