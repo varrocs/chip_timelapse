@@ -65,7 +65,9 @@ def _run_command_for(power_chip_register):
         power_chip_register)
 
 def _powerdata_lines_to_dict(data_lines):
-    return { line['name']: (str(line['value']) + " " + line['unit'])  for line in data_lines }
+    values = { line['name']: float(line['value'])  for line in data_lines }
+    units = { line['name']+"_unit": line['unit']  for line in data_lines }
+    return dict(values.items() + units.items())
 
 def turn_on_current_adc_measurement():
     subprocess.call("/usr/sbin/i2cset -y -f 0 0x34 0x82 0xc3", shell=True)
