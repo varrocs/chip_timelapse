@@ -17,16 +17,27 @@ FOR_REAL=True
 
 def log_data(switch_status, attiny_present):
     try:
-	log_data = {}
+        log_data = {}
         try:
             power_supply.turn_on_current_adc_measurement()
             time.sleep(1)
             log_data['powerData'] = power_supply.read_power_data()
             log_data['powerdataStatus'] = True
         except Exception as e:
-	    logging.error("Failed to get power data: "+str(e))
+            logging.error("Failed to get power data: "+str(e))
             log_data['powerData'] = {}
             log_data['powerdataStatus'] = False
+
+        try:
+            log_data['imagesSizeMB'] = take_picture.images_size() / (1024*1024)
+            log_data['freeDiskSpaceMB'] = take_picture.free_space() / (1024*1024)
+            log_data['diskSpaceStatus'] = True
+        except Exception as e:
+            logging.error("Failed to get file system status: "+str(e))
+            log_data['imagesSizeMB'] = 0
+            log_data['freeDiskSpaceMB'] = 0
+            log_data['diskSpaceStatus'] = False
+
         log_data['switchStatus'] = switch_status
         log_data['rebootTime'] = REBOOT_TIME
         log_data['attinyPresent'] = attiny_present
