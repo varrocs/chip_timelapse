@@ -12,8 +12,8 @@ import take_picture
 import traceback
 
 LOGFILE="timelapse.log"
-REBOOT_TIME=45
-FOR_REAL=False
+REBOOT_TIME=300
+FOR_REAL=True
 
 def log_data(switch_status, attiny_present):
     try:
@@ -38,11 +38,12 @@ def log_data(switch_status, attiny_present):
 
 def sync_data():
     logging.info(" ------------ Syncing files ...")
-
+    logging.info("SKIP")
     logging.info(" ------------ Syncing files ... DONE")
 
 def take_photo():
     logging.info(" ------------ Taking photo ...")
+    take_picture.take_picture()
     logging.info(" ------------ Taking photo ... DONE")
 
 def power_off():
