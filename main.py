@@ -11,7 +11,7 @@ import take_picture
 
 import traceback
 
-LOGFILE="timelapse.log"
+LOGFILE="/home/chip/timelapse.log"
 REBOOT_TIME=300
 FOR_REAL=True
 

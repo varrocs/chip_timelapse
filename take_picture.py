@@ -3,8 +3,8 @@ import datetime
 import os
 import subprocess
 
-IMAGE_FOLDER = "images/"
-FILENAME_FORMAT = "camera_image_{time}.png"
+IMAGE_FOLDER = "/home/chip/images/"
+FILENAME_FORMAT = "camera_image_{time}.jpg"
 CAMERA_UTILITY = "fswebcam"
 RESOLUTION="1280x720"
 DEVICE="/dev/video0"
@@ -18,7 +18,7 @@ def _check_folder():
         os.mkdir(IMAGE_FOLDER)
 
 def _do_take_picture(filename):
-    command = [CAMERA_UTILITY, "-r", RESOLUTION, "--no-banner", "--png", "-1", "--device", DEVICE, filename]
+    command = [CAMERA_UTILITY, "-r", RESOLUTION, "--no-banner", "--jpeg", "-1", "--device", DEVICE, filename]
     subprocess.call(command)
 
 def take_picture():
